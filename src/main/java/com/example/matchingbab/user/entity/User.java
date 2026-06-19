@@ -113,4 +113,23 @@ public class User extends BaseEntity {
                 emojiId
         );
     }
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void changeGrade(int grade) {
+        this.grade = grade;
+    }
+
+    public void changeLeaveStatus(boolean onLeave) {
+        this.onLeave = onLeave;
+    }
+
+    public void changeStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    public void changeEmoji(int emojiId) {
+        this.emojiId = emojiId;
+    }
 }
