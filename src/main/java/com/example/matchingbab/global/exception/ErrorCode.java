@@ -122,7 +122,12 @@ public enum ErrorCode {
     EXPIRED_TOKEN(
             HttpStatus.UNAUTHORIZED,
         "인증 토큰이 만료되었습니다."
-    );
+    ),
+
+    INVALID_EMOJI_ID(
+            HttpStatus.BAD_REQUEST,
+            "올바르지 않은 이모티콘 ID입니다."
+    ),;
 
     private final HttpStatus httpStatus;
     private final String message;
