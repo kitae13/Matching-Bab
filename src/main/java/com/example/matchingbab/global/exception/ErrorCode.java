@@ -127,6 +127,26 @@ public enum ErrorCode {
     INVALID_EMOJI_ID(
             HttpStatus.BAD_REQUEST,
             "올바르지 않은 이모티콘 ID입니다."
+    ),
+
+    TIMETABLE_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "등록된 시간표가 없습니다."
+    ),
+
+    TIMETABLE_PRIVATE(
+            HttpStatus.FORBIDDEN,
+            "비공개 시간표입니다."
+    ),
+
+    INVALID_TIME_RANGE(
+            HttpStatus.BAD_REQUEST,
+            "시간표의 시작 시간은 종료 시간보다 빨라야 합니다."
+    ),
+
+    TIMETABLE_TIME_CONFLICT(
+            HttpStatus.CONFLICT,
+            "같은 요일에 시간이 겹치는 일정이 있습니다."
     ),;
 
     private final HttpStatus httpStatus;
