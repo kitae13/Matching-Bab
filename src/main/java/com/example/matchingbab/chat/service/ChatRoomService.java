@@ -15,6 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.matchingbab.chat.dto.AppointmentProposalResponse;
+import com.example.matchingbab.chat.dto.AppointmentResponse;
+import com.example.matchingbab.chat.repository.AppointmentProposalRepository;
+import com.example.matchingbab.chat.repository.AppointmentRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -106,16 +110,36 @@ public class ChatRoomService {
                                 )
                         );
 
-        User opponent =
-                getOpponent(
-                        chatRoom,
-                        currentUserId
-                );
+        User opponent = getOpponent(
+                chatRoom,
+                currentUserId
+        );
+
+        AppointmentProposalResponse latestProposal =
+                appointmentProposalRepository
+                        .findFirstByChatRoom_IdOrderByCreatedAtDesc(
+                                chatRoomId
+                        )
+                        .map(proposal ->
+                                AppointmentProposalResponse.of(
+                                        proposal,
+                                        currentUserId
+                                )
+                        )
+                        .orElse(null);
+
+        AppointmentResponse appointment =
+                appointmentRepository
+                        .findByChatRoom_Id(chatRoomId)
+                        .map(AppointmentResponse::from)
+                        .orElse(null);
 
         return ChatRoomDetailResponse.of(
                 chatRoom,
                 opponent,
-                CHAT_RULES_NOTICE
+                CHAT_RULES_NOTICE,
+                latestProposal,
+                appointment
         );
     }
 
@@ -150,4 +174,10 @@ public class ChatRoomService {
                 "해당 채팅방에 접근할 권한이 없습니다."
         );
     }
+
+    private final AppointmentProposalRepository
+            appointmentProposalRepository;
+
+    private final AppointmentRepository
+            appointmentRepository;
 }

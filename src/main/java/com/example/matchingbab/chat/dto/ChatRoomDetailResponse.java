@@ -14,7 +14,8 @@ public record ChatRoomDetailResponse(
         ChatRoomStatus chatRoomStatus,
         ChatParticipantResponse opponent,
         String rulesNotice,
-        AppointmentSummary appointment,
+        AppointmentProposalResponse latestProposal,
+        AppointmentResponse appointment,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         LocalDateTime closedAt
@@ -23,7 +24,9 @@ public record ChatRoomDetailResponse(
     public static ChatRoomDetailResponse of(
             ChatRoom chatRoom,
             User opponent,
-            String rulesNotice
+            String rulesNotice,
+            AppointmentProposalResponse latestProposal,
+            AppointmentResponse appointment
     ) {
         return new ChatRoomDetailResponse(
                 chatRoom.getId(),
@@ -32,17 +35,11 @@ public record ChatRoomDetailResponse(
                 chatRoom.getStatus(),
                 ChatParticipantResponse.from(opponent),
                 rulesNotice,
-                null,
+                latestProposal,
+                appointment,
                 chatRoom.getCreatedAt(),
                 chatRoom.getUpdatedAt(),
                 chatRoom.getClosedAt()
         );
-    }
-
-    public record AppointmentSummary(
-            Long appointmentId,
-            LocalDateTime appointmentDateTime,
-            String placeName
-    ) {
     }
 }

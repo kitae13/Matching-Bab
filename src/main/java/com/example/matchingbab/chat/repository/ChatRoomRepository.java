@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
 
 import java.util.Optional;
 
@@ -63,6 +65,24 @@ public interface ChatRoomRepository
             WHERE chatRoom.id = :chatRoomId
             """)
     Optional<ChatRoom> findByIdWithParticipants(
+            @Param("chatRoomId")
+            Long chatRoomId
+    );
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @EntityGraph(
+            attributePaths = {
+                    "match",
+                    "match.requester",
+                    "match.receiver"
+            }
+    )
+    @Query("""
+        SELECT chatRoom
+        FROM ChatRoom chatRoom
+        WHERE chatRoom.id = :chatRoomId
+        """)
+    Optional<ChatRoom> findByIdForAppointmentUpdate(
             @Param("chatRoomId")
             Long chatRoomId
     );

@@ -197,6 +197,31 @@ public enum ErrorCode {
     CHATROOM_CLOSED(
             HttpStatus.CONFLICT,
             "종료된 채팅방에는 메시지를 보낼 수 없습니다."
+    ),
+
+    APPOINTMENT_PROPOSAL_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "약속 일정 제안을 찾을 수 없습니다."
+    ),
+
+    INVALID_APPOINTMENT_TIME(
+            HttpStatus.BAD_REQUEST,
+            "약속 시간은 현재 시간보다 이후여야 합니다."
+    ),
+
+    PENDING_APPOINTMENT_PROPOSAL_EXISTS(
+            HttpStatus.CONFLICT,
+            "아직 처리되지 않은 약속 일정 제안이 있습니다."
+    ),
+
+    ALREADY_CONFIRMED_APPOINTMENT(
+            HttpStatus.CONFLICT,
+            "이미 확정된 약속 일정이 있습니다."
+    ),
+
+    INVALID_PROPOSAL_STATUS(
+            HttpStatus.CONFLICT,
+            "대기 중인 약속 일정 제안만 처리할 수 있습니다."
     ),;
 
     private final HttpStatus httpStatus;
