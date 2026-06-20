@@ -8,6 +8,12 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 import java.util.Collection;
 
@@ -89,5 +95,18 @@ public interface MatchRequestRepository
             Long senderId,
             MatchStatus status,
             Pageable pageable
+    );
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("""
+        SELECT matchRequest
+        FROM MatchRequest matchRequest
+        JOIN FETCH matchRequest.sender
+        JOIN FETCH matchRequest.receiver
+        WHERE matchRequest.id = :matchRequestId
+        """)
+    Optional<MatchRequest> findByIdForUpdate(
+            @Param("matchRequestId")
+            Long matchRequestId
     );
 }
