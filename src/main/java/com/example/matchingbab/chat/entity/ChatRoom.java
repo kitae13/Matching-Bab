@@ -69,4 +69,21 @@ public class ChatRoom extends BaseEntity {
         this.status = ChatRoomStatus.EXPIRED;
         this.closedAt = LocalDateTime.now();
     }
+
+    @Column(
+            name = "last_message",
+            length = 1000
+    )
+    private String lastMessage;
+
+    @Column(name = "last_message_at")
+    private LocalDateTime lastMessageAt;
+
+    public void recordLastMessage(
+            String content,
+            LocalDateTime messageCreatedAt
+    ) {
+        this.lastMessage = content;
+        this.lastMessageAt = messageCreatedAt;
+    }
 }

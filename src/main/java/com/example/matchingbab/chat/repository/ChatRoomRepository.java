@@ -30,7 +30,11 @@ public interface ChatRoomRepository
                     FROM ChatRoom chatRoom
                     WHERE chatRoom.match.requester.id = :userId
                        OR chatRoom.match.receiver.id = :userId
-                    ORDER BY chatRoom.updatedAt DESC
+                    ORDER BY
+                        COALESCE(
+                            chatRoom.lastMessageAt,
+                            chatRoom.createdAt
+                        ) DESC
                     """,
             countQuery = """
                     SELECT COUNT(chatRoom)
