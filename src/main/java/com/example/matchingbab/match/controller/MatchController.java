@@ -2,14 +2,20 @@ package com.example.matchingbab.match.controller;
 
 import com.example.matchingbab.global.response.ApiResponse;
 import com.example.matchingbab.global.response.PageResponse;
+import com.example.matchingbab.global.type.MatchStatus;
 import com.example.matchingbab.global.type.UserRole;
+import com.example.matchingbab.match.dto.CreateMatchRequest;
 import com.example.matchingbab.match.dto.MatchRecommendationResponse;
+import com.example.matchingbab.match.dto.MatchRequestResponse;
+import com.example.matchingbab.match.service.MatchRequestService;
 import com.example.matchingbab.match.service.MatchService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +26,9 @@ import org.springframework.web.bind.annotation.*;
 public class MatchController {
 
     private final MatchService matchService;
+
+    private final MatchRequestService
+            matchRequestService;
 
     @GetMapping("/recommendations")
     public ApiResponse<
@@ -66,6 +75,91 @@ public class MatchController {
                         role,
                         interestId,
                         department,
+                        page,
+                        size
+                )
+        );
+    }
+
+    @PostMapping("/requests")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<MatchRequestResponse>
+    createRequest(
+            @Valid @RequestBody
+            CreateMatchRequest request
+    ) {
+        return ApiResponse.success(
+                "밥약 신청이 전송되었습니다.",
+                matchRequestService.createRequest(request)
+        );
+    }
+
+    @GetMapping("/requests/received")
+    public ApiResponse<
+            PageResponse<MatchRequestResponse>
+            > getReceivedRequests(
+
+            @RequestParam(required = false)
+            MatchStatus status,
+
+            @RequestParam(defaultValue = "0")
+            @Min(
+                    value = 0,
+                    message = "페이지 번호는 0 이상이어야 합니다."
+            )
+            int page,
+
+            @RequestParam(defaultValue = "10")
+            @Min(
+                    value = 1,
+                    message = "페이지 크기는 1 이상이어야 합니다."
+            )
+            @Max(
+                    value = 50,
+                    message = "페이지 크기는 50 이하여야 합니다."
+            )
+            int size
+    ) {
+        return ApiResponse.success(
+                "받은 밥약 신청 목록 조회에 성공했습니다.",
+                matchRequestService.getReceivedRequests(
+                        status,
+                        page,
+                        size
+                )
+        );
+    }
+
+    @GetMapping("/requests/sent")
+    public ApiResponse<
+            PageResponse<MatchRequestResponse>
+            > getSentRequests(
+
+            @RequestParam(required = false)
+            MatchStatus status,
+
+            @RequestParam(defaultValue = "0")
+            @Min(
+                    value = 0,
+                    message = "페이지 번호는 0 이상이어야 합니다."
+            )
+            int page,
+
+            @RequestParam(defaultValue = "10")
+            @Min(
+                    value = 1,
+                    message = "페이지 크기는 1 이상이어야 합니다."
+            )
+            @Max(
+                    value = 50,
+                    message = "페이지 크기는 50 이하여야 합니다."
+            )
+            int size
+    ) {
+        return ApiResponse.success(
+                "보낸 밥약 신청 목록 조회에 성공했습니다.",
+                matchRequestService.getSentRequests(
+                        status,
                         page,
                         size
                 )

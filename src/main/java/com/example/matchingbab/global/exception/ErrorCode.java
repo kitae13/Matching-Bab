@@ -147,6 +147,36 @@ public enum ErrorCode {
     TIMETABLE_TIME_CONFLICT(
             HttpStatus.CONFLICT,
             "같은 요일에 시간이 겹치는 일정이 있습니다."
+    ),
+
+    MATCH_REQUEST_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "밥약 신청을 찾을 수 없습니다."
+    ),
+
+    CANNOT_REQUEST_SELF(
+            HttpStatus.BAD_REQUEST,
+            "본인에게 밥약을 신청할 수 없습니다."
+    ),
+
+    DIFFERENT_SCHOOL(
+            HttpStatus.FORBIDDEN,
+            "같은 학교 사용자에게만 밥약을 신청할 수 있습니다."
+    ),
+
+    INVALID_MATCH_TARGET(
+            HttpStatus.BAD_REQUEST,
+            "밥약을 신청할 수 없는 사용자입니다."
+    ),
+
+    ALREADY_REQUESTED(
+            HttpStatus.CONFLICT,
+            "이미 진행 중인 밥약 신청이 있습니다."
+    ),
+
+    INVALID_MATCH_STATUS(
+            HttpStatus.BAD_REQUEST,
+            "처리할 수 없는 밥약 신청 상태입니다."
     ),;
 
     private final HttpStatus httpStatus;
