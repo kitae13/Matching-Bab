@@ -227,6 +227,16 @@ public enum ErrorCode {
     GUIDE_NOT_FOUND(
             HttpStatus.NOT_FOUND,
             "가이드북을 찾을 수 없습니다."
+    ),
+
+    QUESTION_CATEGORY_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "대화 주제 카테고리를 찾을 수 없습니다."
+    ),
+
+    QUESTION_CARD_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "질문 카드를 찾을 수 없습니다."
     ),;
 
     private final HttpStatus httpStatus;
