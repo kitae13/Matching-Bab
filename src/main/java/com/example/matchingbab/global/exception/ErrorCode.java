@@ -222,6 +222,11 @@ public enum ErrorCode {
     INVALID_PROPOSAL_STATUS(
             HttpStatus.CONFLICT,
             "대기 중인 약속 일정 제안만 처리할 수 있습니다."
+    ),
+
+    GUIDE_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "가이드북을 찾을 수 없습니다."
     ),;
 
     private final HttpStatus httpStatus;
