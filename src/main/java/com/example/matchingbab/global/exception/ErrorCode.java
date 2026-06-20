@@ -177,6 +177,16 @@ public enum ErrorCode {
     INVALID_MATCH_STATUS(
             HttpStatus.BAD_REQUEST,
             "처리할 수 없는 밥약 신청 상태입니다."
+    ),
+
+    MATCH_ALREADY_EXISTS(
+            HttpStatus.CONFLICT,
+            "이미 생성된 매칭입니다."
+    ),
+
+    CHATROOM_ALREADY_EXISTS(
+            HttpStatus.CONFLICT,
+            "해당 매칭의 채팅방이 이미 존재합니다."
     ),;
 
     private final HttpStatus httpStatus;

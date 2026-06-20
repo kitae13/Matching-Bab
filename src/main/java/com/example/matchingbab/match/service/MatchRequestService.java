@@ -21,6 +21,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.matchingbab.chat.entity.ChatRoom;
+import com.example.matchingbab.chat.service.ChatRoomService;
+import com.example.matchingbab.match.dto.MatchAcceptResponse;
+import com.example.matchingbab.match.dto.MatchRequestStatusResponse;
+import com.example.matchingbab.match.entity.Match;
+import com.example.matchingbab.match.repository.MatchRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -313,5 +319,151 @@ public class MatchRequestService {
                                 ErrorCode.USER_NOT_FOUND
                         )
                 );
+    }
+
+    private final MatchRepository matchRepository;
+
+    private final ChatRoomService chatRoomService;
+
+    @Transactional
+    public MatchAcceptResponse acceptRequest(
+            Long matchRequestId
+    ) {
+        Long currentUserId =
+                SecurityUtil.getCurrentUserId();
+
+        MatchRequest matchRequest =
+                getMatchRequestForUpdate(matchRequestId);
+
+        validateReceiver(
+                matchRequest,
+                currentUserId
+        );
+
+        validatePending(matchRequest);
+
+        if (matchRepository.existsByMatchRequest_Id(
+                matchRequestId
+        )) {
+            throw new BusinessException(
+                    ErrorCode.MATCH_ALREADY_EXISTS
+            );
+        }
+
+        matchRequest.accept();
+
+        Match match = matchRepository.save(
+                Match.create(matchRequest)
+        );
+
+        ChatRoom chatRoom =
+                chatRoomService.createForMatch(match);
+
+        return MatchAcceptResponse.of(
+                matchRequest,
+                match,
+                chatRoom
+        );
+    }
+
+    @Transactional
+    public MatchRequestStatusResponse rejectRequest(
+            Long matchRequestId
+    ) {
+        Long currentUserId =
+                SecurityUtil.getCurrentUserId();
+
+        MatchRequest matchRequest =
+                getMatchRequestForUpdate(matchRequestId);
+
+        validateReceiver(
+                matchRequest,
+                currentUserId
+        );
+
+        validatePending(matchRequest);
+
+        matchRequest.reject();
+
+        return MatchRequestStatusResponse.from(
+                matchRequest
+        );
+    }
+
+    @Transactional
+    public MatchRequestStatusResponse cancelRequest(
+            Long matchRequestId
+    ) {
+        Long currentUserId =
+                SecurityUtil.getCurrentUserId();
+
+        MatchRequest matchRequest =
+                getMatchRequestForUpdate(matchRequestId);
+
+        validateSender(
+                matchRequest,
+                currentUserId
+        );
+
+        validatePending(matchRequest);
+
+        matchRequest.cancel();
+
+        return MatchRequestStatusResponse.from(
+                matchRequest
+        );
+    }
+
+    private MatchRequest getMatchRequestForUpdate(
+            Long matchRequestId
+    ) {
+        return matchRequestRepository
+                .findByIdForUpdate(matchRequestId)
+                .orElseThrow(() ->
+                        new BusinessException(
+                                ErrorCode.MATCH_REQUEST_NOT_FOUND
+                        )
+                );
+    }
+
+    private void validateReceiver(
+            MatchRequest matchRequest,
+            Long currentUserId
+    ) {
+        if (!Objects.equals(
+                matchRequest.getReceiver().getId(),
+                currentUserId
+        )) {
+            throw new BusinessException(
+                    ErrorCode.FORBIDDEN,
+                    "밥약 신청을 받은 사용자만 처리할 수 있습니다."
+            );
+        }
+    }
+
+    private void validateSender(
+            MatchRequest matchRequest,
+            Long currentUserId
+    ) {
+        if (!Objects.equals(
+                matchRequest.getSender().getId(),
+                currentUserId
+        )) {
+            throw new BusinessException(
+                    ErrorCode.FORBIDDEN,
+                    "밥약 신청을 보낸 사용자만 취소할 수 있습니다."
+            );
+        }
+    }
+
+    private void validatePending(
+            MatchRequest matchRequest
+    ) {
+        if (!matchRequest.isPending()) {
+            throw new BusinessException(
+                    ErrorCode.INVALID_MATCH_STATUS,
+                    "대기 중인 밥약 신청만 처리할 수 있습니다."
+            );
+        }
     }
 }
