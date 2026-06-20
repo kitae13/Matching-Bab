@@ -187,6 +187,11 @@ public enum ErrorCode {
     CHATROOM_ALREADY_EXISTS(
             HttpStatus.CONFLICT,
             "해당 매칭의 채팅방이 이미 존재합니다."
+    ),
+
+    CHATROOM_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "채팅방을 찾을 수 없습니다."
     ),;
 
     private final HttpStatus httpStatus;
