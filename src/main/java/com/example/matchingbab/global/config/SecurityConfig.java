@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpMethod;
 
 @Configuration
 @RequiredArgsConstructor
@@ -87,7 +86,10 @@ public class SecurityConfig {
                                         "/api/v1/interests",
                                         "/api/v1/food-preferences",
                                         "/api/v1/guides",
-                                        "/api/v1/guides/**"
+                                        "/api/v1/guides/**",
+                                        "/api/v1/question-categories",
+                                        "/api/v1/question-cards",
+                                        "/api/v1/question-cards/**"
                                 )
                                 .permitAll()
 
