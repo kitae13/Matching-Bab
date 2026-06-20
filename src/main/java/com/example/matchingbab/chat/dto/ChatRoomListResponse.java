@@ -29,8 +29,8 @@ public record ChatRoomListResponse(
                 chatRoom.getMatch().getStatus(),
                 chatRoom.getStatus(),
                 ChatParticipantResponse.from(opponent),
-                null,
-                null,
+                chatRoom.getLastMessage(),
+                chatRoom.getLastMessageAt(),
                 chatRoom.getCreatedAt(),
                 chatRoom.getUpdatedAt()
         );
