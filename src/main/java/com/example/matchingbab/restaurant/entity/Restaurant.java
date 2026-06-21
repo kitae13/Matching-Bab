@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Restaurant {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,5 +23,4 @@ public class Restaurant {
     private Mood mood;
     private Integer maxPrice;
     private Boolean isPartner;
-    private Integer averagePrice;
-}
+    private Integer averagePrice;}

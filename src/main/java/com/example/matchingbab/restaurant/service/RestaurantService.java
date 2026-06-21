@@ -48,7 +48,6 @@ public class RestaurantService {
 
     // 상세 조회
     public RestaurantDetailResponse getRestaurant(Long id) {
-
         Restaurant r = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("RESTAURANT_NOT_FOUND"));
 
@@ -113,7 +112,6 @@ public class RestaurantService {
     }
 
     private String buildReason(Restaurant r, Integer budget) {
-
         if (r.getIsPartner()) {
             return "제휴 가게로 할인 혜택 가능";
         }
