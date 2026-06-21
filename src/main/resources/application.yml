@@ -6,10 +6,10 @@ spring:
     name: matching-bab
 
   datasource:
-    url: jdbc:h2:mem:matching_bab;MODE=MySQL;DATABASE_TO_UPPER=false
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/Babpool
+    username: Babpool_user
+    password: Babpool123
+    driver-class-name: org.postgresql.Driver
 
   h2:
     console:

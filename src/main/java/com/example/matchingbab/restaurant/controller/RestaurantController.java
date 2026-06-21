@@ -2,6 +2,7 @@ package com.example.matchingbab.restaurant.controller;
 
 import com.example.matchingbab.restaurant.dto.RestaurantDetailResponse;
 import com.example.matchingbab.restaurant.dto.RestaurantListResponse;
+import com.example.matchingbab.restaurant.dto.RestaurantRecommendationResponse;
 import com.example.matchingbab.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -33,15 +34,15 @@ public class RestaurantController {
     public RestaurantDetailResponse getRestaurant(@PathVariable Long id) {
         return restaurantService.getRestaurant(id);
     }
-}
 
-@GetMapping("/recommendations")
-public List<RestaurantRecommendationResponse> getRecommendations(
-        @RequestParam(required = false) Long schoolId,
-        @RequestParam Integer budgetPerPerson,
-        @RequestParam(required = false) String category
-) {
-    return restaurantService.getRecommendations(
-            schoolId, budgetPerPerson, category
-    );
+    @GetMapping("/recommendations")
+    public List<RestaurantRecommendationResponse> getRecommendations(
+            @RequestParam(required = false) Long schoolId,
+            @RequestParam Integer budgetPerPerson,
+            @RequestParam(required = false) String category
+    ) {
+        return restaurantService.getRecommendations(
+                schoolId, budgetPerPerson, category
+        );
+    }
 }

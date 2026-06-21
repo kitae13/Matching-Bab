@@ -1,7 +1,7 @@
 package com.example.matchingbab.restaurant.config;
 
-import com.babyak.restaurant.entity.*;
-import com.babyak.restaurant.repository.RestaurantRepository;
+import com.example.matchingbab.restaurant.entity.*;
+import com.example.matchingbab.restaurant.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
