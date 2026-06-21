@@ -12,7 +12,6 @@ import java.util.List;
 @RequestMapping("/api/v1/restaurants")
 @RequiredArgsConstructor
 public class RestaurantController {
-
     private final RestaurantService restaurantService;
 
     // 목록 조회

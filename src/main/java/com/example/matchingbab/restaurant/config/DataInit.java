@@ -16,7 +16,6 @@ public class DataInit {
     @Bean
     public CommandLineRunner init() {
         return args -> {
-
             restaurantRepository.save(
                     Restaurant.builder()
                             .schoolId(1L)
@@ -60,4 +59,5 @@ public class DataInit {
             );
         };
     }
+
 }
