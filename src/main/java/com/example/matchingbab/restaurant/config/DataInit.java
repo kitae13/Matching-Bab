@@ -1,4 +1,4 @@
-package com.babyak.restaurant.config;
+package com.example.matchingbab.restaurant.config;
 
 import com.babyak.restaurant.entity.*;
 import com.babyak.restaurant.repository.RestaurantRepository;
