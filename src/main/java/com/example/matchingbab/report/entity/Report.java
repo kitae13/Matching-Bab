@@ -1,5 +1,8 @@
 package com.example.matchingbab.report.entity;
 
+import com.example.matchingbab.report.type.ReportReasonType;
+import com.example.matchingbab.report.type.ReportStatus;
+import com.example.matchingbab.report.type.ReportTargetType;
 import jakarta.persistence.*;
 import lombok.*;
 
