@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin")
 public class AdminReportController {
-
     private final AdminReportService service;
 
     @GetMapping("/reports")
